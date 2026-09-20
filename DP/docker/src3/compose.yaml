@@ -1,0 +1,35 @@
+name: project
+services:
+  db:
+    restart: always
+    image: mysql:8.4
+    volumes:
+      - db-data:/var/lib/mysql
+    environment: 
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+    networks:
+      - app-net
+      
+  app:
+    depends_on:
+      - db
+    restart: always
+    image: potikanond/dome-app-169
+    ports:
+      - 3333:3000
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DB=${DB_NAME}
+    networks:
+      - app-net
+      
+volumes:
+  db-data:
+  
+networks:
+  app-net:
