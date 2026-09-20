@@ -74,7 +74,7 @@ async function updatePost(post: PostData, postId: string) {
     })
     .where(
       and(
-        eq(posts.postId, post.postId)),
+        eq(posts.postId, post.postId),
         eq(posts.authorId, post.authorId)
     );
   dbConn.end();
